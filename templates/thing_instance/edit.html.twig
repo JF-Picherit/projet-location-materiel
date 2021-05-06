@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer l'instance{% endblock %}
+
+{% block body %}
+    <h1>Éditer l'instance</h1>
+
+    {{ include('thing_instance/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <hr/>
+    {{ include('thing_instance/_delete_form.html.twig') }}
+    <a href="{{ path('thing_instance_index', {'thing': thing_instance.thing.id}) }}">retour</a>
+{% endblock %}

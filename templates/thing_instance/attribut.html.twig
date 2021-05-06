@@ -1,0 +1,8 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Attribuer l'instance{% endblock %}
+
+{% block body %}
+    <h4>Attribuer à ({{ booker }})</h4>
+    {{ include('thing_instance/_form.html.twig', {'button_label': 'Attribuer'}) }}
+{% endblock %}

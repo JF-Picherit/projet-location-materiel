@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle instance{% endblock %}
+
+{% block body %}
+    <h1>Nouvelle instance</h1>
+
+    {{ include('thing_instance/_form.html.twig') }}
+
+    <a href="{{ path('thing_instance_index', {'thing': thing.id}) }}">retour</a>
+{% endblock %}

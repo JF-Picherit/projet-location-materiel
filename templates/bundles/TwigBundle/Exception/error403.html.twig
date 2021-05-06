@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accès refusé !{% endblock %}
+
+{% block body %}
+<h1>Vous n'avez pas l'autorisation pour accéder à cette page.</h1>
+
+<div class="jumbotron">
+    <h2>Vous n'avez pas l'autorisation pour accéder à cette page.</h2>
+
+    Vous n'avez pas l'autorisation pour accéder à cette page.
+
+    <hr/>
+
+    <a href="{{ path('app_login') }}">Connectez-vous</a> pour voir la liste des objets!
+</div>
+
+{% endblock %}

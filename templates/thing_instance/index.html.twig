@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des {{ thing.name }}{% endblock %}
+
+{% block body %}
+    <h1>Liste des "{{ thing.name }}"</h1>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th># de série</th>
+                <th>État</th>
+                <th>Date d'emprunt</th>
+                <th>Date de retour</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for thing_instance in thing_instances %}
+            <tr>
+                <td><kbd>{{ thing_instance.serial }}</kbd></td>
+                <td>
+                    <code>
+                    {% if thing_instance.borrower %}
+                        Emprunté
+                        [{{ thing_instance.borrower }}]
+                    {% elseif thing_instance.booker %}
+                        Réservé
+                        [{{ thing_instance.booker }}]
+                    {% else %}
+                        -
+                    {% endif %}
+                    </code>
+                </td>
+                <td>{{ thing_instance.borrowDate ? thing_instance.borrowDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ thing_instance.returnDate ? thing_instance.returnDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    {% if thing_instance.booker and thing_instance.borrower == null %}
+                        <a href="{{ path('thing_instance_attribut', {'id': thing_instance.id}) }}">attribuer</a> /
+                        <a href="{{ path('thing_instance_annule_booker', {'id': thing_instance.id}) }}">annuler</a>
+                    {% elseif thing_instance.borrower %}
+                        <a href="{{ path('thing_instance_return', {'id': thing_instance.id}) }}">retourner</a> 
+                    {% else %}
+                        <a href="{{ path('thing_instance_edit', {'id': thing_instance.id}) }}">éditer</a> 
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">aucune instance</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('thing_instance_new', {'thing': thing.id}) }}">Créer</a>
+{% endblock %}

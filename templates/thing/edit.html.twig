@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer un objet{% endblock %}
+
+{% block body %}
+    <h1>Éditer un objet</h1>
+
+    {{ include('thing/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <hr/>
+
+    {{ include('thing/_delete_form.html.twig') }}
+    <a href="{{ path('thing_index') }}">retour</a>
+{% endblock %}

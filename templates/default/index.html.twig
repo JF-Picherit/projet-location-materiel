@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue!{% endblock %}
+
+{% block body %}
+<h1>Bienvenue!</h1>
+
+<div class="jumbotron">
+    {% if is_granted('ROLE_ADMIN') %}
+
+        {% if borrow_things and borrow_things|length >= 1 %}
+            <h2>Objets non retourner : </h2>
+            <ul>
+                {% for b_thing in borrow_things %}
+                    <li>
+                        [{{ b_thing.thing.name }}] - ({{ (b_thing.returnDate|date("d/m/Y")) }})
+                            {% set difference = date(b_thing.returnDate).diff(date()) %}                       
+                            <span class="text-danger">&#9203; {{ b_thing.borrower.email }} à {{difference.days}} jour(s) de retard !</span>              
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h5>
+                Vous avez le fabuleux rôle d'administrateur ! 
+                Vous avez donc la lourde responsabilité de gérés les emprunts de nos étudiants !
+                Nous vous souhaitons bonne chance &#128521; !
+            </h5>
+        {% endif %}
+
+    {% elseif is_granted('ROLE_USER') %}
+
+        {% if borrow_things and borrow_things|length >= 1 %}
+            <h2>Objets Emprunter !</h2>
+            <ul>
+                {% for b_thing in borrow_things %}
+                    <li>
+                        [{{ b_thing.thing.name }}] - ({{ (b_thing.returnDate|date("d/m/Y")) }})
+                        {% if date(b_thing.returnDate) < date() %}
+                            {% set difference = date(b_thing.returnDate).diff(date()) %}                       
+                            <span class="text-danger">&#9203; Attention vous avez {{difference.days}} jour(s) de retard pour le retour !</span>              
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h2>Aucun objet emprunter pour le moment.</h2>
+        {% endif %}
+
+    {% else %}
+        <h2>Emprunter, c'est facile!</h2>
+        Cette application vous permettra de réserver le matériel disponible et de suivre vos emprunts!
+        <hr/>
+        <a href="{{ path('app_login') }}">Connectez-vous</a> pour voir la liste des objets!
+    {% endif %}
+</div>
+
+
+{% endblock %}
